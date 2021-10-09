@@ -59,15 +59,18 @@ def do_sign(i, cookie):
     except:
         message = f'第{i + 1}个账号验证失败！请检查Cookie是否过期！'
         autherror = True
+        return message, autherror
 
     if me.status_code != 200 and not autherror:
         message = f'第{i + 1}个账号验证失败！请检查Cookie是否过期！'
+        return message, True
 
     try:
         sign_return = signin(sign_url, cookie)
     except:
         message = f'第{i + 1}个账号签到失败，回显状态码为{sign_return.status_code}，具体错误信息如下：{sign_return.text}'
         signerror = True
+        return message, signerror
 
     if sign_return.status_code == 200:
         message = f'第{i + 1}个账号签到成功！'
